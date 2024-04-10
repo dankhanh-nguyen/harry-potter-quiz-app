@@ -10,18 +10,26 @@ import 'questions.dart';
 
 @GenerateMocks([http.Client])
 void main() {
-  test('State model returns quiz questions', () {
-
-    final client = MockClient();
+  final client = MockClient();
 
     when(client.get(Uri.parse('https://stevecassidy.github.io/harry-potter-quiz-app/lib/data/questions.json')))
       .thenAnswer((_) async => http.Response(jsonEncode(questionsJson), 200));
 
     var testState = StateModel(client);
 
+  test('State model returns quiz questions', () {
     testState.addListener(() {
       expect(testState.questions.length, 6);
       expect(testState.getCurrentQuestion().questionText, startsWith("What"));
     });
   });
+
+  // advanceQuestion
+  test('advanceQuestion', () {
+    testState.advanceQuestion();
+  });
+  // addAnswer
+  // getCurrentQuestion
+  // currentQuestionNumber
+  // getSummaryData
 }
